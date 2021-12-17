@@ -1,9 +1,11 @@
 import {StackProps, StageProps} from "aws-cdk-lib";
 
 export interface AngularDeployStageProps extends StageProps {
-    zoneName: string;
+    domainName: string;
+    subDomain: string;
 }
 
 export interface AngularDeployStackProps extends StackProps{
-    zoneName: string;
+    domainName: string;
+    subDomain: string;
 }
