@@ -18,6 +18,8 @@ export class AngularDeployStack extends Stack {
             caaAmazon: true
         });
 
+        console.log('this.hostedZone.zoneName: ', this.hostedZone.zoneName);
+
         const bucket = new Bucket(this, 'AngularWebsiteBucket', {
             removalPolicy: RemovalPolicy.DESTROY,
             autoDeleteObjects: true
