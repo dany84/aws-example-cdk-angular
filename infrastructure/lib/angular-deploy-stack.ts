@@ -30,7 +30,10 @@ export class AngularDeployStack extends Stack {
 
         const bucket = new Bucket(this, 'AngularWebsiteBucket', {
             removalPolicy: RemovalPolicy.DESTROY,
-            autoDeleteObjects: true
+            autoDeleteObjects: true,
+            publicReadAccess: true,
+            websiteIndexDocument: 'index.html',
+            websiteErrorDocument: 'index.html'
         });
 
         const distribution = new aws_cloudfront.Distribution(this, 'Distribution', {
