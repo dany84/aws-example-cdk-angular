@@ -35,7 +35,8 @@ export class PipelineStack extends Stack {
 
         pipeline.addStage(new AngularDeployStage(this, 'Deploy', {
             domainName: this.node.tryGetContext(props.env_name).domainName,
-            subDomain: this.node.tryGetContext(props.env_name).subDomain
+            subDomain: this.node.tryGetContext(props.env_name).subDomain,
+            env: props.env
         }));
     }
 }

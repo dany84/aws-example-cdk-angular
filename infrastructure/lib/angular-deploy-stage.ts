@@ -10,7 +10,8 @@ export class AngularDeployStage extends Stage {
 
         const angular = new AngularDeployStack(this, 'AngularDeployStack', {
             domainName: props.domainName,
-            subDomain: props.subDomain
+            subDomain: props.subDomain,
+            env: props.env
         });
     }
 }
