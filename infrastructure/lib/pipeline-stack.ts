@@ -8,14 +8,14 @@ export interface PipelineStackProps extends StackProps {
 }
 
 export class PipelineStack extends Stack {
-    constructor(scope: Construct, id: string, props?: PipelineStackProps) {
+    constructor(scope: Construct, id: string, props: PipelineStackProps) {
         super(scope, id, props);
 
         const pipeline = new CodePipeline(this, 'Pipeline', {
             pipelineName: 'ExampleAngularPipeline',
             synth: new ShellStep('Synth', {
                 input: CodePipelineSource.connection('dany84/aws-example-cdk-angular', 'main', {
-                    connectionArn: this.node.tryGetContext('codeStarConnectionArnParam')
+                    connectionArn: this.node.tryGetContext(props.env_name).codeStarConnectionArnParam
                 }),
                 primaryOutputDirectory: 'infrastructure/cdk.out',
                 commands: [
