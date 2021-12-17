@@ -14,7 +14,7 @@ export class AngularDeployStack extends Stack {
         super(scope, id, props);
 
         const hostedZone = new aws_route53.PublicHostedZone(this, 'HostedZone', {
-            zoneName: '(your domain).com',
+            zoneName: props.domainName,
             caaAmazon: true
         });
 
