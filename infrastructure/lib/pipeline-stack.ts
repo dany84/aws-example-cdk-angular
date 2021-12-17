@@ -1,6 +1,6 @@
 import {Construct} from "constructs";
-import {Stack, StackProps} from "aws-cdk-lib";
-import {CodePipeline, CodePipelineSource, ShellStep} from "aws-cdk-lib/pipelines";
+import {aws_iam, Stack, StackProps} from "aws-cdk-lib";
+import {CodeBuildStep, CodePipeline, CodePipelineSource, ShellStep} from "aws-cdk-lib/pipelines";
 import {AngularDeployStage} from "./angular-deploy-stage";
 
 export interface PipelineStackProps extends StackProps {
@@ -13,7 +13,7 @@ export class PipelineStack extends Stack {
 
         const pipeline = new CodePipeline(this, 'Pipeline', {
             pipelineName: 'ExampleAngularPipeline',
-            synth: new ShellStep('Synth', {
+            synth: new CodeBuildStep('Synth', {
                 input: CodePipelineSource.connection('dany84/aws-example-cdk-angular', 'main', {
                     connectionArn: this.node.tryGetContext(props.env_name).codeStarConnectionArnParam
                 }),
@@ -29,14 +29,28 @@ export class PipelineStack extends Stack {
                     'npm ci',
                     'npm run build',
                     'npx cdk synth'
+                ],
+                rolePolicyStatements:[
+                    new aws_iam.PolicyStatement({
+                        actions: ['sts:AssumeRole'],
+                        resources: ['*'],
+                        conditions: {
+                            StringEquals: {
+                                'iam:ResourceTag/aws-cdk:bootstrap-role': 'lookup',
+                            },
+                        }
+                    })
                 ]
             })
         });
 
+        /*
         pipeline.addStage(new AngularDeployStage(this, 'Deploy', {
             domainName: this.node.tryGetContext(props.env_name).domainName,
             subDomain: this.node.tryGetContext(props.env_name).subDomain,
             env: props.env
         }));
+
+         */
     }
 }
