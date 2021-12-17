@@ -1,5 +1,5 @@
 import {Construct} from "constructs";
-import {CfnParameter, Stack, StackProps} from "aws-cdk-lib";
+import {Stack, StackProps} from "aws-cdk-lib";
 import {CodePipeline, CodePipelineSource, ShellStep} from "aws-cdk-lib/pipelines";
 import {AngularDeployStage} from "./angular-deploy-stage";
 
@@ -33,13 +33,9 @@ export class PipelineStack extends Stack {
             })
         });
 
-
-        /*
         pipeline.addStage(new AngularDeployStage(this, 'Deploy', {
-            domainName: this.node.tryGetContext('domainName'),
-            subDomain: this.node.tryGetContext('subDomain')
+            domainName: this.node.tryGetContext(props.env_name).domainName,
+            subDomain: this.node.tryGetContext(props.env_name).subDomain
         }));
-
-         */
     }
 }
