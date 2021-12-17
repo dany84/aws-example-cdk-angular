@@ -13,12 +13,10 @@ export class AngularDeployStack extends Stack {
     constructor(scope: Construct, id: string, props: AngularDeployStackProps) {
         super(scope, id, props);
 
-       /* const hostedZone = new PublicHostedZone(this, 'HostedZone', {
+        this.hostedZone = new PublicHostedZone(this, 'HostedZone', {
             zoneName: props.zoneName,
             caaAmazon: true
         });
-        this.hostedZone = hostedZone;
-        */
 
         const bucket = new Bucket(this, 'AngularWebsiteBucket', {
             removalPolicy: RemovalPolicy.DESTROY,
