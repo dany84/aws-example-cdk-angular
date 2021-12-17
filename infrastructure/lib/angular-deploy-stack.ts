@@ -3,10 +3,22 @@ import {Construct} from 'constructs';
 import {Bucket} from "aws-cdk-lib/aws-s3";
 import * as path from "path";
 import {BucketDeployment, Source} from "aws-cdk-lib/aws-s3-deployment";
+import {HostedZone, PublicHostedZone} from "aws-cdk-lib/aws-route53";
+import {AngularDeployStackProps} from "./angular-deploy-props";
 
 export class AngularDeployStack extends Stack {
-    constructor(scope: Construct, id: string, props?: StackProps) {
+
+    public readonly hostedZone: HostedZone;
+
+    constructor(scope: Construct, id: string, props: AngularDeployStackProps) {
         super(scope, id, props);
+
+       /* const hostedZone = new PublicHostedZone(this, 'HostedZone', {
+            zoneName: props.zoneName,
+            caaAmazon: true
+        });
+        this.hostedZone = hostedZone;
+        */
 
         const bucket = new Bucket(this, 'AngularWebsiteBucket', {
             removalPolicy: RemovalPolicy.DESTROY,

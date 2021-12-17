@@ -2,22 +2,17 @@ import {Construct} from "constructs";
 import {CfnParameter, Stack, StackProps} from "aws-cdk-lib";
 import {CodePipeline, CodePipelineSource, ShellStep} from "aws-cdk-lib/pipelines";
 import {AngularDeployStage} from "./angular-deploy-stage";
+import {AngularPipelineDeployProps} from "./angular-deploy-props";
 
 export class PipelineStack extends Stack {
-    constructor(scope: Construct, id: string, props?: StackProps) {
+    constructor(scope: Construct, id: string, props: AngularPipelineDeployProps) {
         super(scope, id, props);
-
-        const codeStarConnectionArnParam = new CfnParameter(this, 'codeStarConnectionArnParam', {
-            type: 'String',
-            description: 'connectionArn to pulling src'
-        });
-        console.log('codeStarConnectionArnParam: ', codeStarConnectionArnParam.valueAsString);
 
         const pipeline = new CodePipeline(this, 'Pipeline', {
             pipelineName: 'ExampleAngularPipeline',
             synth: new ShellStep('Synth', {
                 input: CodePipelineSource.connection('dany84/aws-example-cdk-angular', 'main', {
-                    connectionArn: codeStarConnectionArnParam.valueAsString
+                    connectionArn: props.codeStarConnectionArnParam
                 }),
                 primaryOutputDirectory: 'infrastructure/cdk.out',
                 commands: [
@@ -35,6 +30,8 @@ export class PipelineStack extends Stack {
             })
         });
 
-        pipeline.addStage(new AngularDeployStage(this, 'Deploy'));
+        pipeline.addStage(new AngularDeployStage(this, 'Deploy', {
+            zoneName: props.zoneName
+        }));
     }
 }
