@@ -1,6 +1,7 @@
 import {Construct} from "constructs";
 import {CfnParameter, Stack, StackProps} from "aws-cdk-lib";
 import {CodePipeline, CodePipelineSource, ShellStep} from "aws-cdk-lib/pipelines";
+import {AngularDeployStage} from "./angular-deploy-stage";
 
 export class PipelineStack extends Stack {
     constructor(scope: Construct, id: string, props?: StackProps) {
@@ -33,5 +34,7 @@ export class PipelineStack extends Stack {
                 ]
             })
         });
+
+        pipeline.addStage(new AngularDeployStage(this, 'Deploy'));
     }
 }
