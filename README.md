@@ -6,3 +6,4 @@ deploy simple angular app to AWS using CDK V2
 npx cdk deploy    \
 --profile some-profile   \
 --parameters codeStarConnectionArnParam=XXXXXXXX
+

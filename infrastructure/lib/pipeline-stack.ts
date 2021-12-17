@@ -20,14 +20,15 @@ export class PipelineStack extends Stack {
                 }),
                 primaryOutputDirectory: 'infrastructure/cdk.out',
                 commands: [
+                    'echo installing dependencies',
                     'npm install',
                     'echo installing angular cli',
                     'npm i -g @angular/cli',
                     'echo Building angular-app',
                     'ng build',
+                    'cd infrastructure',
                     'npm ci',
                     'npm run build',
-                    'cd infrastructure',
                     'npx cdk synth'
                 ]
             })
