@@ -1,5 +1,9 @@
 {
-  "codeStarConnectionArnParam": "arn:aws:codestar-connections:sa-east-1:383827279863:connection/2fe91f14-1847-4ee5-a8fd-c0e859a7b05a",
-  "domainName": "dbzcloud.com",
-  "subDomain": "aws-example-cdk-angular"
+  "def": {
+    "region": "us-east-1",
+    "account": "383827279863",
+    "codeStarConnectionArnParam": "arn:aws:codestar-connections:sa-east-1:383827279863:connection/2fe91f14-1847-4ee5-a8fd-c0e859a7b05a",
+    "domainName": "dbzcloud.com",
+    "subDomain": "aws-example-cdk-angular"
+  }
 }

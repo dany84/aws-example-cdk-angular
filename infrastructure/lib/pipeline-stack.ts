@@ -3,8 +3,12 @@ import {CfnParameter, Stack, StackProps} from "aws-cdk-lib";
 import {CodePipeline, CodePipelineSource, ShellStep} from "aws-cdk-lib/pipelines";
 import {AngularDeployStage} from "./angular-deploy-stage";
 
+export interface PipelineStackProps extends StackProps {
+    env_name: string;
+}
+
 export class PipelineStack extends Stack {
-    constructor(scope: Construct, id: string, props?: StackProps) {
+    constructor(scope: Construct, id: string, props?: PipelineStackProps) {
         super(scope, id, props);
 
         const pipeline = new CodePipeline(this, 'Pipeline', {
