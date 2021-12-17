@@ -29,11 +29,9 @@ export class PipelineStack extends Stack {
             })
         });
 
-        /*
-        pipeline.addStage(new AngularDeployStage(this, 'Deploy', {
-            zoneName: props.zoneName
-        }));
 
-         */
+        pipeline.addStage(new AngularDeployStage(this, 'Deploy', {
+            zoneName: this.node.tryGetContext('zoneName')
+        }));
     }
 }
