@@ -30,9 +30,12 @@ export class PipelineStack extends Stack {
         });
 
 
+        /*
         pipeline.addStage(new AngularDeployStage(this, 'Deploy', {
             domainName: this.node.tryGetContext('domainName'),
             subDomain: this.node.tryGetContext('subDomain')
         }));
+
+         */
     }
 }
