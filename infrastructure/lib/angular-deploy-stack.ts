@@ -19,6 +19,7 @@ export class AngularDeployStack extends Stack {
         });
 
         console.log('this.hostedZone.zoneName: ', this.hostedZone.zoneName);
+        console.log('getting subDomain: ', this.node.tryGetContext('subDomain'));
 
         const bucket = new Bucket(this, 'AngularWebsiteBucket', {
             removalPolicy: RemovalPolicy.DESTROY,
