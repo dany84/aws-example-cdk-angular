@@ -30,8 +30,11 @@ export class PipelineStack extends Stack {
             })
         });
 
+        /*
         pipeline.addStage(new AngularDeployStage(this, 'Deploy', {
             zoneName: props.zoneName
         }));
+
+         */
     }
 }
