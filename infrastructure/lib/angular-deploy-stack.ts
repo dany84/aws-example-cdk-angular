@@ -1,21 +1,27 @@
-import {aws_cloudfront, aws_route53, aws_route53_targets, CfnOutput, Duration, RemovalPolicy, Stack} from 'aws-cdk-lib';
+import {
+    aws_cloudfront,
+    aws_cloudfront_origins,
+    aws_route53,
+    aws_route53_targets,
+    CfnOutput,
+    Duration,
+    RemovalPolicy,
+    Stack
+} from 'aws-cdk-lib';
 import {Construct} from 'constructs';
 import {Bucket} from "aws-cdk-lib/aws-s3";
 import * as path from "path";
 import {BucketDeployment, Source} from "aws-cdk-lib/aws-s3-deployment";
-import {HostedZone} from "aws-cdk-lib/aws-route53";
 import {AngularDeployStackProps} from "./angular-deploy-props";
 import {DnsValidatedCertificate} from "aws-cdk-lib/aws-certificatemanager";
-import {S3Origin} from "aws-cdk-lib/aws-cloudfront-origins";
 
 export class AngularDeployStack extends Stack {
 
     constructor(scope: Construct, id: string, props: AngularDeployStackProps) {
         super(scope, id, props);
 
-        const hostedZone = new aws_route53.PublicHostedZone(this, 'HostedZone', {
-            zoneName: props.domainName,
-            caaAmazon: true
+        const hostedZone = aws_route53.HostedZone.fromLookup(this, "Zone", {
+            domainName: props.domainName,
         });
 
         const siteDomain = props.subDomain + "." + props.domainName;
@@ -35,13 +41,14 @@ export class AngularDeployStack extends Stack {
             websiteIndexDocument: 'index.html',
             websiteErrorDocument: 'index.html'
         });
+        new CfnOutput(this, "Bucket", { value: bucket.bucketName });
 
         const distribution = new aws_cloudfront.Distribution(this, 'Distribution', {
             defaultRootObject: 'index.html',
             certificate: certificate,
             domainNames: [siteDomain],
             defaultBehavior: {
-                origin: new S3Origin(bucket),
+                origin: new aws_cloudfront_origins.S3Origin(bucket),
                 cachePolicy: new aws_cloudfront.CachePolicy(this, 'CachePolicy', {
                     cachePolicyName: 'static_cache',
                     minTtl: Duration.days(365),
